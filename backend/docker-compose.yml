@@ -13,8 +13,8 @@ services:
       - DB_PORT=5432
       - DB_NAME=meditech_db
       - DB_USER=postgres
-      - DB_PASSWORD=tu_password_aqui
-      - DATABASE_URL=postgresql://postgres:tu_password_aqui@db:5432/meditech_db
+      - DB_PASSWORD=postgres
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/meditech_db
       - JWT_SECRET=cambia_esto_por_un_secreto_muy_largo_y_seguro_en_produccion
       - JWT_EXPIRES_IN=15m
       - JWT_REFRESH_SECRET=otro_secreto_diferente_para_refresh_tokens
@@ -30,11 +30,11 @@ services:
     command: pnpm run dev
 
   db:
-    image: postgres:15-alpine
+    image: postgres:16-alpine
     container_name: meditech_db
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: tu_password_aqui
+      POSTGRES_PASSWORD: postgres
       POSTGRES_DB: meditech_db
     ports:
       - "5432:5432"
