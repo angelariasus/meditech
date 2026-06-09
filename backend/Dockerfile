@@ -9,6 +9,10 @@ COPY package.json pnpm-lock.yaml* ./
 # Instalar pnpm globalmente e instalar dependencias ignorando scripts
 RUN npm install -g pnpm && pnpm install --ignore-scripts
 
+# Copiar configuración de Prisma y el esquema antes de generar
+COPY prisma ./prisma
+COPY prisma.config.ts ./
+
 # Generar el cliente de Prisma explícitamente
 RUN npx prisma generate
 
