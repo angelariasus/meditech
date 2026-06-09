@@ -44,6 +44,25 @@ app.use('/api/citas', citaRoutes);
 app.use('/api/historial', historialRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 
+// Ruta principal - Información de la API
+app.get('/', (req, res) => {
+  res.json({
+    name: 'Meditech API REST',
+    version: '1.0.0',
+    description: 'API para la gestión de pacientes, médicos, citas e historiales clínicos.',
+    docs: 'Consulta el contrato de la API para más detalles.',
+    endpoints: [
+      '/api/auth',
+      '/api/pacientes',
+      '/api/medicos',
+      '/api/citas',
+      '/api/historial',
+      '/api/dashboard',
+      '/api/health'
+    ]
+  });
+});
+
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
