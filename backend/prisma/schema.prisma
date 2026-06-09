@@ -1,0 +1,130 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email         String          @unique @db.VarChar(255)
+  password_hash String
+  rol           String          @db.VarChar(20)
+  activo        Boolean         @default(true)
+  created_at    DateTime        @default(now()) @db.Timestamptz
+  updated_at    DateTime        @default(now()) @updatedAt @db.Timestamptz
+
+  paciente      Paciente?
+  medico        Medico?
+  refreshTokens RefreshToken[]
+
+  @@map("users")
+}
+
+model Paciente {
+  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id          String             @unique @db.Uuid
+  user             User               @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  nombre           String             @db.VarChar(120)
+  apellido         String             @db.VarChar(120)
+  dni              String             @unique @db.VarChar(20)
+  fecha_nacimiento DateTime           @db.Date
+  telefono         String?            @db.VarChar(20)
+  direccion        String?
+  grupo_sanguineo  String?            @db.VarChar(5)
+  alergias         String?
+  created_at       DateTime           @default(now()) @db.Timestamptz
+  updated_at       DateTime           @default(now()) @updatedAt @db.Timestamptz
+
+  citas            Cita[]
+  historial        HistorialClinico[]
+
+  @@map("pacientes")
+}
+
+model Medico {
+  id           String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id      String             @unique @db.Uuid
+  user         User               @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  nombre       String             @db.VarChar(120)
+  apellido     String             @db.VarChar(120)
+  especialidad String             @db.VarChar(100)
+  colegiatura  String             @unique @db.VarChar(50)
+  telefono     String?            @db.VarChar(20)
+  activo       Boolean            @default(true)
+  created_at   DateTime           @default(now()) @db.Timestamptz
+  updated_at   DateTime           @default(now()) @updatedAt @db.Timestamptz
+
+  disponibilidades Disponibilidad[]
+  citas            Cita[]
+  historial        HistorialClinico[]
+
+  @@map("medicos")
+}
+
+model Disponibilidad {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  medico_id   String   @db.Uuid
+  medico      Medico   @relation(fields: [medico_id], references: [id], onDelete: Cascade)
+  dia_semana  Int      @db.SmallInt
+  hora_inicio DateTime @db.Time
+  hora_fin    DateTime @db.Time
+  activo      Boolean  @default(true)
+
+  @@unique([medico_id, dia_semana, hora_inicio])
+  @@index([medico_id, dia_semana], name: "idx_disponibilidad")
+  @@map("disponibilidad")
+}
+
+model Cita {
+  id           String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  paciente_id  String             @db.Uuid
+  paciente     Paciente           @relation(fields: [paciente_id], references: [id], onDelete: Cascade)
+  medico_id    String             @db.Uuid
+  medico       Medico             @relation(fields: [medico_id], references: [id], onDelete: Cascade)
+  fecha_hora   DateTime           @db.Timestamptz
+  duracion_min Int?               @default(30) @db.SmallInt
+  estado       String             @default("pendiente") @db.VarChar(20)
+  motivo       String?
+  notas_medico String?
+  created_at   DateTime           @default(now()) @db.Timestamptz
+  updated_at   DateTime           @default(now()) @updatedAt @db.Timestamptz
+
+  historial    HistorialClinico[]
+
+  @@index([paciente_id], name: "idx_citas_paciente")
+  @@index([medico_id], name: "idx_citas_medico")
+  @@index([fecha_hora], name: "idx_citas_fecha")
+  @@map("citas")
+}
+
+model HistorialClinico {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  paciente_id   String   @db.Uuid
+  paciente      Paciente @relation(fields: [paciente_id], references: [id], onDelete: Cascade)
+  cita_id       String?  @db.Uuid
+  cita          Cita?    @relation(fields: [cita_id], references: [id], onDelete: SetNull)
+  medico_id     String   @db.Uuid
+  medico        Medico   @relation(fields: [medico_id], references: [id])
+  diagnostico   String
+  receta        String?
+  resultado_url String?
+  observaciones String?
+  fecha         DateTime @default(now()) @db.Timestamptz
+  created_at    DateTime @default(now()) @db.Timestamptz
+
+  @@index([paciente_id], name: "idx_historial_pac")
+  @@map("historial_clinico")
+}
+
+model RefreshToken {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id    String   @db.Uuid
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  token      String   @unique
+  expires_at DateTime @db.Timestamptz
+  created_at DateTime @default(now()) @db.Timestamptz
+
+  @@map("refresh_tokens")
+}
