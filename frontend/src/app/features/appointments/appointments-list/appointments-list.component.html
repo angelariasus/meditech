@@ -1,0 +1,121 @@
+<!-- Page Title & Actions (Desktop) -->
+<div class="hidden md:flex justify-between items-center mb-md">
+  <div>
+    <h1 class="font-headline-lg text-headline-lg text-on-background">Gestión de Citas</h1>
+    <p class="text-on-surface-variant font-body-md text-body-md mt-1">Organiza y administra la agenda médica.</p>
+  </div>
+
+</div>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+  <!-- Left Sidebar (Filters & Pending List) -->
+  <div class="lg:col-span-3 flex flex-col gap-gutter">
+
+    <!-- Pending Appointments Card -->
+    <div class="bg-surface-container-lowest rounded-xl border border-outline-variant flex-1 flex flex-col overflow-hidden">
+      <div class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface">
+        <h3 class="font-title-lg text-title-lg text-on-surface">Por Confirmar</h3>
+        <span class="bg-error-container text-on-error-container text-xs font-bold px-2 py-1 rounded-full">3</span>
+      </div>
+      <div class="flex-1 overflow-y-auto p-2 space-y-2">
+        @for (cita of citasPendientes; track cita.id) {
+          <div class="p-3 bg-surface rounded-lg border border-outline-variant hover:shadow-[0_4px_12px_rgba(9,30,66,0.08)] transition-shadow cursor-pointer border-l-4 border-l-secondary">
+            <div class="flex justify-between items-start mb-1">
+              <span class="font-label-md text-label-md text-on-surface">{{ cita.paciente?.nombre }} {{ cita.paciente?.apellido }}</span>
+              <span class="text-xs text-on-surface-variant">{{ cita.fecha_hora | date:'shortTime' }}</span>
+            </div>
+            <p class="text-xs text-on-surface-variant mb-2">{{ cita.medico?.nombre }} {{ cita.medico?.apellido }} • {{ cita.medico?.especialidad }}</p>
+            <div class="flex gap-2">
+              <button class="flex-1 bg-primary text-on-primary text-[10px] font-bold py-1.5 rounded hover:bg-primary-container transition-colors">Aceptar</button>
+              <button class="flex-1 bg-surface-container-high text-on-surface text-[10px] font-bold py-1.5 rounded hover:bg-surface-variant transition-colors">Rechazar</button>
+            </div>
+          </div>
+        } @empty {
+          <div class="p-4 text-center text-on-surface-variant text-sm">
+            No hay citas pendientes
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+  <!-- Main Calendar Area -->
+  <div class="lg:col-span-9 bg-surface-container-lowest rounded-xl border border-outline-variant flex flex-col h-[700px]">
+    <!-- Calendar Header Controls -->
+    <div class="p-4 border-b border-outline-variant flex flex-col sm:flex-row justify-between items-center gap-4 bg-surface rounded-t-xl">
+      <div class="flex items-center gap-4 w-full sm:w-auto">
+        <button class="p-1.5 rounded hover:bg-surface-container text-on-surface-variant">
+          <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        <h2 class="font-title-lg text-title-lg text-on-surface font-semibold flex-1 text-center sm:text-left">Noviembre 2023</h2>
+        <button class="p-1.5 rounded hover:bg-surface-container text-on-surface-variant">
+          <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+      </div>
+      <div class="flex bg-surface-container-low rounded-lg p-1 border border-outline-variant">
+        <button class="px-4 py-1.5 text-sm font-medium rounded-md text-on-surface-variant hover:text-on-surface">Día</button>
+        <button class="px-4 py-1.5 text-sm font-medium rounded-md bg-surface shadow-sm text-primary">Semana</button>
+        <button class="px-4 py-1.5 text-sm font-medium rounded-md text-on-surface-variant hover:text-on-surface">Mes</button>
+      </div>
+    </div>
+    <!-- Calendar Grid (Weekly View Conceptual) -->
+    <div class="flex-1 overflow-auto flex relative bg-surface-bright">
+      <!-- Time Column -->
+      <div class="w-16 flex-shrink-0 border-r border-outline-variant bg-surface sticky left-0 z-20">
+        <div class="h-12 border-b border-outline-variant bg-surface sticky top-0 z-30"></div> <!-- Top corner -->
+        <div class="h-20 border-b border-outline-variant flex justify-center items-start pt-2 text-xs text-on-surface-variant">08:00</div>
+        <div class="h-20 border-b border-outline-variant flex justify-center items-start pt-2 text-xs text-on-surface-variant">09:00</div>
+        <div class="h-20 border-b border-outline-variant flex justify-center items-start pt-2 text-xs text-on-surface-variant">10:00</div>
+        <div class="h-20 border-b border-outline-variant flex justify-center items-start pt-2 text-xs text-on-surface-variant">11:00</div>
+      </div>
+      <!-- Days Columns Container -->
+      <div class="flex-1 flex min-w-[700px]">
+        <!-- Day Header Row (Sticky) -->
+        <div class="absolute top-0 left-16 right-0 h-12 flex z-10 bg-surface shadow-sm">
+          <div class="flex-1 border-r border-b border-outline-variant flex flex-col items-center justify-center">
+            <span class="text-[10px] uppercase font-semibold text-on-surface-variant">Lun</span>
+            <span class="text-sm font-bold text-on-surface">13</span>
+          </div>
+          <div class="flex-1 border-r border-b border-outline-variant flex flex-col items-center justify-center bg-primary-fixed-dim bg-opacity-20">
+            <span class="text-[10px] uppercase font-semibold text-primary">Mar</span>
+            <span class="text-sm font-bold text-primary">14</span>
+          </div>
+          <div class="flex-1 border-r border-b border-outline-variant flex flex-col items-center justify-center">
+            <span class="text-[10px] uppercase font-semibold text-on-surface-variant">Mié</span>
+            <span class="text-sm font-bold text-on-surface">15</span>
+          </div>
+          <div class="flex-1 border-r border-b border-outline-variant flex flex-col items-center justify-center">
+            <span class="text-[10px] uppercase font-semibold text-on-surface-variant">Jue</span>
+            <span class="text-sm font-bold text-on-surface">16</span>
+          </div>
+          <div class="flex-1 border-r border-b border-outline-variant flex flex-col items-center justify-center">
+            <span class="text-[10px] uppercase font-semibold text-on-surface-variant">Vie</span>
+            <span class="text-sm font-bold text-on-surface">17</span>
+          </div>
+        </div>
+        <!-- Appointments Grid Area -->
+        <div class="flex-1 flex pt-12 relative">
+          <!-- Background grid lines -->
+          <div class="absolute inset-0 pt-12 flex flex-col pointer-events-none">
+            <div class="h-20 border-b border-outline-variant opacity-50"></div>
+            <div class="h-20 border-b border-outline-variant opacity-50"></div>
+            <div class="h-20 border-b border-outline-variant opacity-50"></div>
+            <div class="h-20 border-b border-outline-variant opacity-50"></div>
+          </div>
+          <!-- Day Columns -->
+          <div class="flex-1 border-r border-outline-variant relative"></div>
+          <div class="flex-1 border-r border-outline-variant relative bg-primary-fixed-dim bg-opacity-5">
+            @for (cita of citasAceptadas; track cita.id) {
+              <div class="relative mt-2 mx-1 bg-primary-container text-on-primary-container rounded p-2 text-xs shadow-sm cursor-pointer overflow-hidden border-l-2 border-primary mb-2">
+                <div class="font-semibold truncate">{{ cita.motivo || 'Cita Programada' }}</div>
+                <div class="opacity-80 truncate">{{ cita.paciente?.nombre }} {{ cita.paciente?.apellido }}</div>
+                <div class="opacity-80 text-[10px]">{{ cita.fecha_hora | date:'shortTime' }}</div>
+              </div>
+            }
+          </div>
+          <div class="flex-1 border-r border-outline-variant relative"></div>
+          <div class="flex-1 border-r border-outline-variant relative"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

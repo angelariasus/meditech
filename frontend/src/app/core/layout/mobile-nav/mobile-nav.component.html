@@ -1,0 +1,15 @@
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface-container shadow-[0_-4px_12px_rgba(9,30,66,0.08)] rounded-t-xl">
+  <a routerLink="/dashboard" routerLinkActive="bg-secondary-container text-on-secondary-container" [routerLinkActiveOptions]="{exact: true}" class="flex flex-col items-center justify-center text-on-surface-variant rounded-2xl px-4 py-1 active:scale-95 transition-transform duration-100">
+    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+    <span class="font-label-md text-label-md mt-1">Inicio</span>
+  </a>
+  <a routerLink="/citas" routerLinkActive="bg-secondary-container text-on-secondary-container" class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-variant rounded-2xl px-4 py-1 active:scale-95 transition-transform duration-100">
+    <span class="material-symbols-outlined">event</span>
+    <span class="font-label-md text-label-md mt-1 font-normal">Citas</span>
+  </a>
+  <a routerLink="/pacientes" routerLinkActive="bg-secondary-container text-on-secondary-container" class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-variant rounded-2xl px-4 py-1 active:scale-95 transition-transform duration-100">
+    <span class="material-symbols-outlined">person</span>
+    <span class="font-label-md text-label-md mt-1 font-normal">Pacientes</span>
+  </a>
+
+</nav>

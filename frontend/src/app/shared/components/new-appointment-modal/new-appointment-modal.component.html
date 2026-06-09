@@ -1,0 +1,49 @@
+@if (isOpen) {
+  <div class="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4">
+    <div class="bg-surface rounded-xl shadow-lg w-full max-w-md overflow-hidden flex flex-col">
+      <div class="p-4 border-b border-outline-variant flex justify-between items-center">
+        <h2 class="text-title-lg font-title-lg text-on-surface">Agendar Nueva Cita</h2>
+        <button (click)="close()" class="text-on-surface-variant hover:text-error transition-colors">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      
+      <div class="p-4 flex-1 overflow-y-auto space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-on-surface mb-1">Paciente *</label>
+          <select [(ngModel)]="formData.paciente_id" class="w-full border border-outline-variant rounded-lg p-2 bg-surface focus:ring-2 focus:ring-primary">
+            <option value="">Seleccione un paciente</option>
+            @for (p of pacientes; track p.id) {
+              <option [value]="p.id">{{ p.nombre }} {{ p.apellido }}</option>
+            }
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-on-surface mb-1">Médico *</label>
+          <select [(ngModel)]="formData.medico_id" class="w-full border border-outline-variant rounded-lg p-2 bg-surface focus:ring-2 focus:ring-primary">
+            <option value="">Seleccione un médico</option>
+            @for (m of medicos; track m.id) {
+              <option [value]="m.id">{{ m.nombre }} {{ m.apellido }} - {{ m.especialidad }}</option>
+            }
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-on-surface mb-1">Fecha y Hora *</label>
+          <input type="datetime-local" [(ngModel)]="formData.fecha_hora" class="w-full border border-outline-variant rounded-lg p-2 bg-surface focus:ring-2 focus:ring-primary">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-on-surface mb-1">Motivo (Opcional)</label>
+          <textarea [(ngModel)]="formData.motivo" rows="2" class="w-full border border-outline-variant rounded-lg p-2 bg-surface focus:ring-2 focus:ring-primary"></textarea>
+        </div>
+      </div>
+
+      <div class="p-4 border-t border-outline-variant flex justify-end gap-3 bg-surface-container-lowest">
+        <button (click)="close()" class="px-4 py-2 rounded-lg text-on-surface border border-outline hover:bg-surface-container transition-colors">Cancelar</button>
+        <button (click)="onSubmit()" class="px-4 py-2 rounded-lg bg-primary text-on-primary hover:bg-primary-container transition-colors shadow-sm">Guardar Cita</button>
+      </div>
+    </div>
+  </div>
+}

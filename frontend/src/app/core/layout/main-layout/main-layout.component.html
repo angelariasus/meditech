@@ -1,0 +1,11 @@
+<app-sidebar></app-sidebar>
+
+<div class="flex-1 md:ml-64 flex flex-col min-h-screen pb-20 md:pb-0">
+  <app-header></app-header>
+  <main class="flex-1 p-margin-mobile md:p-margin-desktop overflow-y-auto">
+    <router-outlet></router-outlet>
+  </main>
+</div>
+
+<app-mobile-nav></app-mobile-nav>
+<app-new-appointment-modal></app-new-appointment-modal>

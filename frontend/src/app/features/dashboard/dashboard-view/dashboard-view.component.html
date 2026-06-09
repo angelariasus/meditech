@@ -1,0 +1,124 @@
+<!-- Page Title -->
+<div class="mb-8">
+  <h2 class="font-headline-lg text-headline-lg text-on-surface">Resumen General</h2>
+  <p class="text-on-surface-variant font-body-lg text-body-lg mt-1">Visión clínica del día - <span id="currentDate">{{ fechaActual | date:'longDate' }}</span></p>
+</div>
+<!-- KPI Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+  <!-- KPI 1 -->
+  <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+    <div class="flex justify-between items-start mb-4">
+      <div class="p-3 bg-primary-container rounded-lg text-on-primary-container">
+        <span class="material-symbols-outlined">event_available</span>
+      </div>
+      <span class="text-xs font-semibold px-2 py-1 bg-surface-container rounded-full text-on-surface-variant">Hoy</span>
+    </div>
+    <p class="text-on-surface-variant font-body-md text-body-md mb-1">Total Citas Diarias</p>
+    <h3 class="font-display-lg text-display-lg text-on-surface">{{ stats?.citasHoy || 0 }}</h3>
+  </div>
+  <!-- KPI 2 -->
+  <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+    <div class="flex justify-between items-start mb-4">
+      <div class="p-3 bg-secondary-container rounded-lg text-on-secondary-container">
+        <span class="material-symbols-outlined">favorite</span>
+      </div>
+      <span class="text-xs font-semibold px-2 py-1 bg-surface-container rounded-full text-on-surface-variant">Mensual</span>
+    </div>
+    <p class="text-on-surface-variant font-body-md text-body-md mb-1">Especialidad más solicitada</p>
+    <h3 class="font-headline-md text-headline-md text-on-surface truncate">{{ stats?.especialidadTop || 'N/A' }}</h3>
+  </div>
+  <!-- KPI 3 -->
+  <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+    <div class="flex justify-between items-start mb-4">
+      <div class="p-3 bg-tertiary-container rounded-lg text-on-tertiary-container">
+        <span class="material-symbols-outlined">group</span>
+      </div>
+      <span class="text-xs font-semibold px-2 py-1 bg-surface-container rounded-full text-on-surface-variant">En curso</span>
+    </div>
+    <p class="text-on-surface-variant font-body-md text-body-md mb-1">Pacientes Atendidos</p>
+    <div class="flex items-end gap-2">
+      <h3 class="font-display-lg text-display-lg text-on-surface">{{ stats?.pacientesAtendidos || 0 }}</h3>
+      <span class="text-sm text-on-surface-variant mb-2">/ {{ stats?.citasHoy || 0 }}</span>
+    </div>
+    <div class="w-full bg-surface-container-highest rounded-full h-1.5 mt-4">
+      <div class="bg-tertiary h-1.5 rounded-full" style="width: 69%"></div>
+    </div>
+  </div>
+  <!-- KPI 4 -->
+  <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+    <div class="flex justify-between items-start mb-4">
+      <div class="p-3 bg-surface-container-highest rounded-lg text-on-surface">
+        <span class="material-symbols-outlined">trending_up</span>
+      </div>
+      <span class="flex items-center text-xs font-semibold px-2 py-1 bg-tertiary-fixed rounded-full text-on-tertiary-fixed-variant">
+        <span class="material-symbols-outlined text-[14px] mr-1">arrow_upward</span>
+        {{ stats?.rendimiento || '+0%' }}
+      </span>
+    </div>
+    <p class="text-on-surface-variant font-body-md text-body-md mb-1">Rendimiento Semanal</p>
+    <h3 class="font-display-lg text-display-lg text-on-surface">{{ stats?.rendimiento || '0%' }}</h3>
+  </div>
+</div>
+<!-- Bento Grid Layout for Complex Content -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+  <!-- Main Activity Panel (Spans 2 columns on large screens) -->
+  <div class="lg:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden flex flex-col">
+    <div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface">
+      <h3 class="font-title-lg text-title-lg text-on-surface flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary">history</span>
+        Actividad Reciente
+      </h3>
+      <button class="text-primary font-label-md text-label-md hover:underline">Ver todo</button>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-surface-container-lowest border-b border-outline-variant text-on-surface-variant font-label-md text-label-md">
+            <th class="py-3 px-6 font-medium">Paciente</th>
+            <th class="py-3 px-6 font-medium">Hora</th>
+            <th class="py-3 px-6 font-medium">Motivo</th>
+            <th class="py-3 px-6 font-medium">Estado</th>
+            <th class="py-3 px-6 font-medium text-right">Acción</th>
+          </tr>
+        </thead>
+        <tbody class="font-body-md text-body-md">
+          @for (cita of actividadReciente; track cita.id) {
+            <tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+              <td class="py-4 px-6 flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-xs">
+                  {{ cita.paciente?.nombre?.charAt(0) || '' }}{{ cita.paciente?.apellido?.charAt(0) || '' }}
+                </div>
+                <span class="font-medium text-on-surface">{{ cita.paciente?.nombre }} {{ cita.paciente?.apellido }}</span>
+              </td>
+              <td class="py-4 px-6 text-on-surface-variant">{{ cita.fecha_hora | date:'shortTime' }}</td>
+              <td class="py-4 px-6 text-on-surface">{{ cita.motivo || 'Consulta Regular' }}</td>
+              <td class="py-4 px-6">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium"
+                      [ngClass]="{
+                        'bg-tertiary-fixed text-on-tertiary-fixed-variant': cita.estado === 'completada',
+                        'bg-error-container text-on-error-container': cita.estado === 'cancelada',
+                        'bg-secondary-container text-on-secondary-container': cita.estado === 'pendiente'
+                      }">
+                  <span class="w-1.5 h-1.5 rounded-full"
+                        [ngClass]="{
+                          'bg-tertiary': cita.estado === 'completada',
+                          'bg-error': cita.estado === 'cancelada',
+                          'bg-secondary': cita.estado === 'pendiente'
+                        }"></span>
+                  {{ cita.estado | titlecase }}
+                </span>
+              </td>
+              <td class="py-4 px-6 text-right">
+                <button class="text-outline hover:text-primary transition-colors"><span class="material-symbols-outlined">more_vert</span></button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="py-8 text-center text-on-surface-variant">No hay actividad reciente.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

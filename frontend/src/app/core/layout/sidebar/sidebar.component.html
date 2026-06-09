@@ -1,0 +1,42 @@
+<nav class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-surface-container-lowest border-r border-outline-variant py-md z-40">
+  <div class="px-md mb-8">
+    <h1 class="font-headline-md text-headline-md font-bold text-primary flex items-center gap-2">
+      <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+      Meditech
+    </h1>
+    <p class="text-on-surface-variant text-sm mt-1">Salud Digital</p>
+  </div>
+  <button (click)="openNewAppointment()" class="mx-md mb-6 bg-primary text-on-primary rounded-full py-3 px-6 flex items-center justify-center gap-2 font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-[0_4px_12px_rgba(9,30,66,0.08)]">
+    <span class="material-symbols-outlined">add</span>
+    Nueva Cita
+  </button>
+  <div class="flex-1 overflow-y-auto px-4 space-y-2">
+    <!-- Links -->
+    <a routerLink="/dashboard" routerLinkActive="text-primary font-bold border-l-4 border-primary bg-surface-container-low" class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container cursor-pointer active:scale-95 transition-all duration-200">
+      <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+      <span class="font-title-lg text-title-lg text-[16px] font-normal">Dashboard</span>
+    </a>
+    <a routerLink="/pacientes" routerLinkActive="text-primary font-bold border-l-4 border-primary bg-surface-container-low" class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container cursor-pointer active:scale-95 transition-all duration-200">
+      <span class="material-symbols-outlined">person</span>
+      <span class="font-title-lg text-title-lg text-[16px] font-normal">Pacientes</span>
+    </a>
+    <a routerLink="/citas" routerLinkActive="text-primary font-bold border-l-4 border-primary bg-surface-container-low" class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container cursor-pointer active:scale-95 transition-all duration-200">
+      <span class="material-symbols-outlined">calendar_month</span>
+      <span class="font-title-lg text-title-lg text-[16px] font-normal">Calendario</span>
+    </a>
+
+  </div>
+  <div class="mt-auto px-4 pt-4 border-t border-outline-variant space-y-2">
+    <div class="flex items-center gap-3 px-4 py-3 mb-2">
+      <img alt="Administrador Meditech" class="w-10 h-10 rounded-full object-cover border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNDdNypYTbBuJuo4gR8E08wPAQ7KUmxKRUexM9Mey-pDAfor0IlPhaERp6MtJRLGI5zuMufbXFMQo3Q0lkeXR7QB5A-D14FBvfBcg6BBtfgaxP8A7KTA_TSoQsR52GZvLdV0EAk5HjGeyh2i6UmIU6XEDNmAbk8WRXutaweywa024lbK2VxDX8ROtn8s9iItK7_gFXh7A2t6JJpPxpR9iWqA5ngSuXmUWT7yYC7ODmnvE5Ujv3t6pSTmC3hRp7QcMpluNBT4rDmu0" />
+      <div>
+        <p class="font-body-md text-body-md font-medium text-on-surface">Admin</p>
+        <p class="text-xs text-on-surface-variant">Admin</p>
+      </div>
+    </div>
+    <a (click)="onLogout()" class="flex items-center gap-3 px-4 py-2 rounded-lg text-error hover:bg-error-container transition-all cursor-pointer">
+      <span class="material-symbols-outlined">logout</span>
+      <span class="text-sm">Cerrar Sesión</span>
+    </a>
+  </div>
+</nav>
